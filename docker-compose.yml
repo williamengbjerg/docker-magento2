@@ -1,0 +1,136 @@
+version: "3.9"
+services:
+
+  ##############################
+  #  Nginx
+  ##############################
+  nginx:
+    image: library/nginx:latest
+    container_name: nginx
+    working_dir: /application
+    volumes:
+      - ./docker/bash/.bashrc:/root/.bashrc
+      - magento-data-rsync:/application:nocopy,delegated
+      #- ./application:/application
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./application/nginx.conf.sample:/etc/nginx/magento.nginx.conf
+      - ./docker/nginx/logs/access.log:/var/log/nginx/access.log
+      - ./docker/nginx/logs/error.log:/var/log/nginx/error.log
+    ports:
+      - "80:80"
+      - "8080:8080"
+    networks:
+      - application
+
+  ##############################
+  #  PHP
+  ##############################
+  php-fpm:
+    build: docker/php-fpm/build
+    container_name: php-fpm
+    working_dir: /application
+    tty: true
+    expose:
+      - 9000
+    volumes:
+      - ./docker/bash/.bashrc:/root/.bashrc
+      - magento-data-rsync:/application:nocopy,delegated
+      #- ./application:/application
+      - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+      - ./docker/php-fpm/extras/root:/root
+    extra_hosts:
+      - "magento.test:192.168.65.2"
+    networks:
+      - application
+
+  ##############################
+  #  NODEJS
+  ##############################
+  node:
+    image: library/node:latest
+    container_name: node
+    tty: true
+    volumes:
+      - ./docker/bash/.bashrc:/root/.bashrc
+      - magento-data-rsync:/application:nocopy,delegated
+    networks:
+      - application
+
+  ##############################
+  #  MariaDB
+  ##############################
+  db:
+    image: library/mariadb:10.4
+    restart: unless-stopped
+    container_name: mariadb
+    tty: true
+    volumes:
+      - ./docker/bash/.bashrc:/root/.bashrc
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: "secret"
+      MYSQL_DATABASE: "database"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+      MYSQL_ROOT_HOST: "%"
+      DATA_PATH_HOST: ./docker/mysql/data
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
+    networks:
+      - application
+
+  ##############################
+  #  Elastic search
+  ##############################
+  elasticsearch:
+    image: library/elasticsearch:7.8.1
+    container_name: elastic-search
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      - "discovery.type=single-node"
+    networks:
+      - application
+
+  ##############################
+  #  Redis
+  ##############################
+  redis:
+    image: library/redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - application
+
+  ##############################
+  #  RabbitMQ
+  ##############################
+  rabbitmq:
+    image: library/rabbitmq:latest
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+    networks:
+      - application
+
+networks:
+  application:
+    driver: bridge
+
+volumes:
+  source:
+    driver: local
+  docker:
+    driver: local
+  magento-data-rsync:
+    external: true

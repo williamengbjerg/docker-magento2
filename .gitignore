@@ -1,0 +1,5 @@
+.DS_Store
+.idea
+application/*
+.docker-sync/*
+docker/mysql/data/*
