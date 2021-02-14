@@ -3,3 +3,6 @@
 application/*
 .docker-sync/*
 docker/mysql/data/*
+docker/php-fpm/*
+docker/php-fpm/extras/
+docker/php-fpm/extras/root/.composer/cache/repo/*

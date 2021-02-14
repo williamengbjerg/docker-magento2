@@ -10,7 +10,7 @@ composer create-project --repository=https://repo.magento.com/ magento/project-c
 
 ### Run in PHP container to install magento 2 setup 
 ```bash
-bin/magento setup:install \
+php bin/magento setup:install \
 --base-url=http://magento2.test \
 --db-host=db:3306 \
 --db-name=database \
@@ -27,18 +27,50 @@ bin/magento setup:install \
 --use-rewrites=1 \
 --elasticsearch-host=elasticsearch \
 --elasticsearch-port=9200
---elasticsearch-enable-auth=0
 ```
 
 Admin url is being generated once installation is done.
 
 ### Remove two factor 
 ```bash
-bin/magento mo:di Magento_TwoFactorAuth
+php bin/magento mo:di Magento_TwoFactorAuth
 ```
 ```bash
-bin/magento setup:di:compile
+php bin/magento setup:di:compile
 ```
+
+### Enable developer mode
+```bash
+php bin/magento deploy:mode:set developer
+```
+
+### Set developer mode (To get error info)
+```bash
+php bin/magento setup:config:set developer
+```
+
+### Fix file permissions 
+```bash
+find var vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + && find var vendor pub/static pub/media app/etc -type d -exec chmod g+w {} + && chmod u+x bin/magento
+```
+
+1. Set permissions to the files:
+```bash
+find . -type f -exec chmod 644 {} \;
+```
+2. Set permissions to the directories
+```bash
+find . -type d -exec chmod 755 {} \;
+```
+3. Set permissions to special directories
+```bash
+find var -type d -exec chmod 755 {} \;
+find pub/media -type d -exec chmod 777 {} \;
+find pub/static -type d -exec chmod 777 {} \;
+```
+
+<strong>Info:</strong>
+<em>In some cases, you can not use 770 or 660 permissions (Fast-CGI systems, for example). Instead, you can use 755 and 644 respectively.</em>
 
 ---
 
@@ -52,17 +84,33 @@ enable ```display_errors``` from file ```app/bootstrap.php``` around line 11 rem
 
 ## 🐳 Docker
 
-### docker-sync
+### Docker-sync
+Before running docker-compose run docker-sync start via term.
+
 COMMAND | START SYNC | CLEAN SYNC | STOP SYNC |
 --- | --- | --- | --- | 
 ```docker-sync``` | ```start``` | ```clean``` | ```stop```
 
 [Full guide](https://docker-sync.readthedocs.io/en/latest/troubleshooting/sync-stopping.html)
 
-### docker
+---
+
+### Docker containers 
 COMMAND | DOCKER START | DOCKER DOWN | DIG INTO CONTAINER |
 --- | --- | --- | --- | 
 ```docker-compose``` | ```up -d``` | ```down``` | ```docker exec -it [CONTAINER-ID] bash```
+
+### Docker containers
+Enter any docker containers 
+```bash
+docker exec -it [CONTAINER-ID] bash
+```
+
+### Docker containers
+Remove all stopped containers, networks not used by at least one container, dangling images, dangling build cache 
+```bash
+docker-compose up -d --build --force-recreate
+```
 
 ---
 
