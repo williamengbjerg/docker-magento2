@@ -49,7 +49,7 @@ php bin/magento setup:install \
 --currency=USD \
 --timezone=Europe/Copenhagen \
 --use-rewrites=1 \
---elasticsearch-host=elasticsearch \
+--elasticsearch-host=elastic-search \
 --elasticsearch-port=9200
 ```
 

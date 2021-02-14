@@ -16,7 +16,7 @@ syncs:
      src: './application/'
      sync_host_ip: 'auto' # localhost for docker for mac
      sync_host_port: '5000'
-     sync_args: '-v' # switch to rsync verbose mode
+     sync_args: '-L' # switch to rsync verbose mode https://github.com/EugenMayer/docker-sync/issues/161#issuecomment-260099223
      notify_terminal: true
      watch_in_container: true
      watch_strategy: 'fswatch'
