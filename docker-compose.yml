@@ -9,8 +9,8 @@ services:
     container_name: nginx
     working_dir: /application
     volumes:
-      - magento-data-rsync:/application:nocopy,delegated
-      - magento-data-rsync:/etc/nginx/magento.nginx.conf:nocopy
+      - magento-data-rsync:/application:nocopy
+      - magento-data-rsync:/etc/nginx/magento.nginx.conf:nocopy,delegated
       #- ./application/nginx.conf.sample:/etc/nginx/magento.nginx.conf
       - ./docker/bash/.bashrc:/root/.bashrc
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf

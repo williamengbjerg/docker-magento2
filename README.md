@@ -1,14 +1,13 @@
 # 🟧 Magento 2 
 
-Onboarding setup and project setup.
+Fresh magento2 project setup. Head into the `application` folder in your host/root through term.  
 
---- 
-### Install clean version of Magento2 
+### 1. Install fresh Magento2 version 
 ```bash
 composer create-project --repository=https://repo.magento.com/ magento/project-community-edition ./
 ```
 
-### Run in PHP container to install magento 2 setup 
+### 2. Run command below 
 ```bash
 php bin/magento setup:install \
 --base-url=http://magento2.test \
@@ -31,20 +30,17 @@ php bin/magento setup:install \
 
 Admin url is being generated once installation is done.
 
-### Remove two factor 
+### 3. Disable two factor and compile files
 ```bash
 php bin/magento mo:di Magento_TwoFactorAuth
 ```
 ```bash
 php bin/magento setup:di:compile
 ```
-
-### Enable developer mode
+### 4. Enable developer mode (For debug)
 ```bash
 php bin/magento deploy:mode:set developer
 ```
-
-### Set developer mode (To get error info)
 ```bash
 php bin/magento setup:config:set developer
 ```
@@ -74,12 +70,12 @@ find pub/static -type d -exec chmod 777 {} \;
 
 ---
 
-## Error log 
+## Enable error log 
 
 enable ```display_errors``` from file ```app/bootstrap.php``` around line 11 remove ```#``` 
 
+[Link - Stackexchange](https://magento.stackexchange.com/a/94569/91296)
 
-[Link](https://magento.stackexchange.com/a/94569/91296)
 ---
 
 ## 🐳 Docker
@@ -87,7 +83,6 @@ enable ```display_errors``` from file ```app/bootstrap.php``` around line 11 rem
 To start containers use `docker-sync-stack start` — this will start docker-sync process as well as the server
 
 ### Docker-sync
-Before running docker-compose run docker-sync start via term.
 
 COMMAND | START SYNC | CLEAN SYNC | STOP SYNC | LIST SYNCS |
 --- | --- | --- | --- | --- |
@@ -102,14 +97,13 @@ COMMAND | DOCKER START | DOCKER DOWN | DIG INTO CONTAINER |
 --- | --- | --- | --- | 
 ```docker-compose``` | ```up -d``` | ```down``` | ```docker exec -it [CONTAINER-ID] bash```
 
-### Docker containers
-Enter any docker containers 
+### Enter a docker container
 ```bash
 docker exec -it [CONTAINER-ID] bash
 ```
 
-### Docker containers
-Remove all stopped containers, networks not used by at least one container, dangling images, dangling build cache 
+### Re-build docker containers
+Remove all containers, networks not used by at least one container, dangling images, dangling build cache 
 ```bash
 docker-compose up -d --build --force-recreate
 ```
