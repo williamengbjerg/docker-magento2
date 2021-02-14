@@ -123,6 +123,21 @@ services:
     networks:
       - application
 
+  ##############################
+  #  MailHog
+  ##############################
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: unless-stopped
+    container_name: mailhog
+    logging:
+      driver: 'local'
+    ports:
+      - 8025:8025 # web ui
+      - 1025:1025 # smtp server
+    networks:
+      - application
+
 networks:
   application:
     driver: bridge

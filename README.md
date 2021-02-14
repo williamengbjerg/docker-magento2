@@ -87,9 +87,9 @@ enable ```display_errors``` from file ```app/bootstrap.php``` around line 11 rem
 ### Docker-sync
 Before running docker-compose run docker-sync start via term.
 
-COMMAND | START SYNC | CLEAN SYNC | STOP SYNC |
---- | --- | --- | --- | 
-```docker-sync``` | ```start``` | ```clean``` | ```stop```
+COMMAND | START SYNC | CLEAN SYNC | STOP SYNC | LIST SYNCS |
+--- | --- | --- | --- | --- |
+```docker-sync``` | ```start``` | ```clean``` | ```stop``` | ```list```
 
 [Full guide](https://docker-sync.readthedocs.io/en/latest/troubleshooting/sync-stopping.html)
 
