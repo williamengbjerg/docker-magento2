@@ -1,6 +1,6 @@
 # 🟧 Magento 2 
 
-Fresh magento2 project setup. Head into the `application` folder in your host/root through term.  
+Fresh magento2 project setup. Head into `application` folder in your host/root through term.  
 
 ### 1. Install fresh Magento2 version 
 ```bash
@@ -133,6 +133,18 @@ docker exec -it [CONTAINER-ID] bash
 Remove all containers, networks not used by at least one container, dangling images, dangling build cache 
 ```bash
 docker-compose up -d --build --force-recreate
+```
+
+### Delete all volumes
+```bash
+docker volume rm $(docker volume ls -q)
+```
+### Delete all images
+```bash
+docker system prune -a
+```
+```bash
+docker system prune --volumes
 ```
 
 ---

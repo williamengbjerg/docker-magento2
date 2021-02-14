@@ -10,7 +10,7 @@ services:
     working_dir: /application
     volumes:
       - magento-data-rsync:/application:nocopy
-      #- magento-data-rsync:/etc/nginx/magento.nginx.conf:nocopy,delegated
+      #- magento-data-rsync:/etc/nginx/magento.nginx.conf:nocopy
       - ./application/nginx.conf.sample:/etc/nginx/magento.nginx.conf
       - ./docker/bash/.bashrc:/root/.bashrc
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
@@ -34,7 +34,7 @@ services:
     expose:
       - 9000
     volumes:
-      - magento-data-rsync:/application:nocopy,delegated
+      - magento-data-rsync:/application:nocopy
       - ./docker/bash/.bashrc:/root/.bashrc
       - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
       - ./docker/php-fpm/extras/root:/root
@@ -52,7 +52,7 @@ services:
     tty: true
     volumes:
       - ./docker/bash/.bashrc:/root/.bashrc
-      - magento-data-rsync:/application:nocopy,delegated
+      - magento-data-rsync:/application:nocopy
     networks:
       - application
 
