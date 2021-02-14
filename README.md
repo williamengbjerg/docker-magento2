@@ -70,6 +70,18 @@ find pub/static -type d -exec chmod 777 {} \;
 
 ---
 
+### Permissions in docker container 
+- `chmod 777 -R var`
+- `chmod 777 -R generated`
+- `chmod 777 -R app/etc`
+- `rm -rf var/cache/* var/page_cache/* var/generation/*`
+
+After that run `php bin/magento setup:di:compile`
+
+[Link guide](https://magento.stackexchange.com/a/251709/91296)
+
+---
+
 ## Enable error log 
 
 enable ```display_errors``` from file ```app/bootstrap.php``` around line 11 remove ```#``` 
