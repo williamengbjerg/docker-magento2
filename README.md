@@ -8,6 +8,31 @@ composer create-project --repository=https://repo.magento.com/ magento/project-c
 ```
 
 ### 2. Run command below 
+
+Run on root/host inside application folder: 
+
+```bash
+php bin/magento setup:install \
+--base-url=http://magento2.test \
+--db-host=127.0.0.1 \
+--db-name=database \
+--db-user=user \
+--db-password=password \
+--admin-firstname=admin \
+--admin-lastname=admin \
+--admin-email=admin@example.com \
+--admin-user=admin \
+--admin-password=admin123 \
+--language=en_US \
+--currency=USD \
+--timezone=Europe/Copenhagen \
+--use-rewrites=1 \
+--elasticsearch-host=localhost:9200 \
+--elasticsearch-port=9200
+```
+--- 
+
+### Or run in docker container
 ```bash
 php bin/magento setup:install \
 --base-url=http://magento2.test \
@@ -28,6 +53,9 @@ php bin/magento setup:install \
 --elasticsearch-port=9200
 ```
 
+---
+
+
 Admin url is being generated once installation is done.
 
 ### 3. Disable two factor and compile files
@@ -46,23 +74,10 @@ php bin/magento setup:config:set developer
 ```
 
 ### Fix file permissions 
-```bash
-find var vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + && find var vendor pub/static pub/media app/etc -type d -exec chmod g+w {} + && chmod u+x bin/magento
-```
+Set the proper permission for the whole Magento 2 installation directory by using below command 
 
-1. Set permissions to the files:
 ```bash
-find . -type f -exec chmod 644 {} \;
-```
-2. Set permissions to the directories
-```bash
-find . -type d -exec chmod 755 {} \;
-```
-3. Set permissions to special directories
-```bash
-find var -type d -exec chmod 755 {} \;
-find pub/media -type d -exec chmod 777 {} \;
-find pub/static -type d -exec chmod 777 {} \;
+find . -type d -exec chmod 700 {} \; && find . -type f -exec chmod 600 {} \;
 ```
 
 <strong>Info:</strong>
