@@ -84,6 +84,8 @@ enable ```display_errors``` from file ```app/bootstrap.php``` around line 11 rem
 
 ## 🐳 Docker
 
+To start containers use `docker-sync-stack start` — this will start docker-sync process as well as the server
+
 ### Docker-sync
 Before running docker-compose run docker-sync start via term.
 
