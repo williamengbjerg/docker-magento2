@@ -7,7 +7,7 @@ Fresh magento2 project setup. Head into `application` folder in your host/root t
 composer create-project --repository=https://repo.magento.com/ magento/project-community-edition ./
 ```
 
-### 1. Run command below 
+### 2. Run command below 
 
 ```bash
 php bin/magento setup:install \
@@ -31,17 +31,16 @@ php bin/magento setup:install \
 
 ---
 
-
 Admin url is being generated once installation is done.
 
-### 2. Disable two factor and compile files
+### 3. Disable two factor and compile files
 ```bash
 php bin/magento mo:di Magento_TwoFactorAuth
 ```
 ```bash
 php bin/magento setup:di:compile
 ```
-### 3. Enable developer mode (For debug)
+### 4. Enable developer mode (For debug)
 ```bash
 php bin/magento deploy:mode:set developer
 ```
@@ -53,7 +52,7 @@ php bin/magento setup:config:set developer
 Set the proper permission for the whole Magento 2 installation directory by using below command 
 
 ```bash
-find . -type d -exec chmod 700 {} \; && find . -type f -exec chmod 600 {} \;
+find . -type d -exec chmod 755 {} \; && find . -type f -exec chmod 755 {} \;
 ```
 
 <strong>Info:</strong>
@@ -100,13 +99,9 @@ COMMAND | DOCKER START | DOCKER DOWN | DIG INTO CONTAINER |
 --- | --- | --- | --- | 
 ```docker-compose``` | ```up -d``` | ```down``` | ```docker exec -it [CONTAINER-ID] bash```
 
-### Enter a docker container
-```bash
-docker exec -it [CONTAINER-ID] bash
-```
 
 ### Re-build docker containers
-Remove all containers, networks not used by at least one container, dangling images, dangling build cache 
+Remove ALL containers, networks not used by at least one container, dangling images, dangling build cache etc 
 ```bash
 docker-compose up -d --build --force-recreate
 ```
@@ -134,7 +129,7 @@ chmod 755 application/
 ```
 
 ### Permission error (usually cache error) 
-Run inside application folder
+In application folder
 
 ```bash
 chown -R www-data:www-data .
