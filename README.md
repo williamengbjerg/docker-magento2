@@ -123,9 +123,21 @@ docker system prune -a
 docker system prune --volumes
 ```
 
-### Nginx container if showing 404 error 
+---
+
+## Permission errors 
+
+### Nginx is showing 404 error not found
+Head into nginx/php-fpm container and type: 
 ```bash
 chmod 755 application/  
+```
+
+### Permission error (usually cache error) 
+Run inside application folder
+
+```bash
+chown -R www-data:www-data .
 ```
 
 ---
