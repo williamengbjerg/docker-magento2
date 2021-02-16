@@ -7,32 +7,8 @@ Fresh magento2 project setup. Head into `application` folder in your host/root t
 composer create-project --repository=https://repo.magento.com/ magento/project-community-edition ./
 ```
 
-### 2. Run command below 
+### 1. Run command below 
 
-Run on root/host inside application folder: 
-
-```bash
-php bin/magento setup:install \
---base-url=http://magento2.test \
---db-host=127.0.0.1 \
---db-name=database \
---db-user=user \
---db-password=password \
---admin-firstname=admin \
---admin-lastname=admin \
---admin-email=admin@example.com \
---admin-user=admin \
---admin-password=admin123 \
---language=en_US \
---currency=USD \
---timezone=Europe/Copenhagen \
---use-rewrites=1 \
---elasticsearch-host=localhost:9200 \
---elasticsearch-port=9200
-```
---- 
-
-### Or run in docker container
 ```bash
 php bin/magento setup:install \
 --base-url=http://magento2.test \
@@ -58,14 +34,14 @@ php bin/magento setup:install \
 
 Admin url is being generated once installation is done.
 
-### 3. Disable two factor and compile files
+### 2. Disable two factor and compile files
 ```bash
 php bin/magento mo:di Magento_TwoFactorAuth
 ```
 ```bash
 php bin/magento setup:di:compile
 ```
-### 4. Enable developer mode (For debug)
+### 3. Enable developer mode (For debug)
 ```bash
 php bin/magento deploy:mode:set developer
 ```
@@ -146,6 +122,18 @@ docker system prune -a
 ```bash
 docker system prune --volumes
 ```
+
+### Nginx container if showing 404 error 
+```bash
+chmod 755 application/  
+```
+
+---
+
+## Clear dummy data 
+Guide from [magento.stackexchange.com](https://magento.stackexchange.com/questions/3701/clearing-magento-after-testing) 
+
+[magento2-clear.sql](/application/ClearDummyProducts/magento2-clear.sql)
 
 ---
 
